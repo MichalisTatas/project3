@@ -28,3 +28,30 @@ def extractLabels(filename):
         f.close()
 
         return labels
+
+
+def plotPrediction(model, data):
+    predictions = model.predict(data)
+
+    n = 10
+    plt.figure(figsize=(20, 4))
+    for i in range(1, n + 1):
+        # Display original
+        ax = plt.subplot(2, n, i)
+        plt.imshow(data[i].reshape(28, 28))
+        plt.gray()
+        ax.get_xaxis().set_visible(False)
+        ax.get_yaxis().set_visible(False)
+
+        # Display reconstruction
+        ax = plt.subplot(2, n, i + n)
+        plt.imshow(predictions[i].reshape(28, 28))
+        plt.gray()
+        ax.get_xaxis().set_visible(False)
+        ax.get_yaxis().set_visible(False)
+    plt.savefig("autoencoder.png")
+    plt.show()
+    plt.show()
+    plt.clf()
+    plt.cla()
+    plt.close()
