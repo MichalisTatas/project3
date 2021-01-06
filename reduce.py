@@ -1,4 +1,5 @@
 import sys
+import getopt
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.core.numeric import Inf, indices
@@ -14,13 +15,34 @@ from tensorflow.keras.metrics import MeanSquaredError, AUC, Accuracy, categorica
 from util import extractData, extractLabels, plotPrediction
 
 
-if len(sys.argv) != 2:
-    print("Correct usage : python blottleneck.py + <path to train file> ")
+if len(sys.argv) != 9:
+    print("Correct usage : python reduce.py -d <dataset> -q <queryset> --od <output_dataset_file> --oq <output_query _file>")
     sys.exit(-1)
 
-inputFile = str(sys.argv[1])
+argv = sys.argv[1:]
 
-data, x, y = extractData(inputFile)
+try:
+    opts, args = getopt.getopt(argv, "d:q:", ["od=", "oq="])
+except getopt.GetoptError:
+    print(
+        "Usage: python classification.py -d <training set> --d1 <training labels> -t <testset> --t1 <test labels> --model <autoencoder h5>"
+    )
+    sys.exit(1)
+for option, argument in opts:
+    if option == "-d":
+        dataset = argument
+
+    elif option in ("--od"):
+        output_dataset = argument
+
+    elif option == "-q":
+        queryset = argument
+
+    elif option in ("--oq"):
+        output_queryset = argument
+
+
+data, x, y = extractData(dataset)
 
 inChannel = 1
 data = data.reshape(-1, x, y, inChannel)
@@ -80,8 +102,6 @@ def getAutoEncoder(filters, activationFunction):
 
 def trainAutoEncoder():
     activationFunction="relu"
-    # lastActivationFunction="relu"
-    # lossFunction="mean_squared_error"
     lossFunction="binary_crossentropy"
     filters=(3, 3)
 
@@ -133,7 +153,6 @@ def encoderPredictions(encoder):
     new_min = 0
     new_range = 25500
 
-
     for j, x in enumerate(predictions):
         for i, y in enumerate(x):
             predictions[j][i] = (((y - min) * new_range) / old_range) + new_min
@@ -142,19 +161,27 @@ def encoderPredictions(encoder):
 
     predictions=predictions.astype(int)
 
-    # for x in predictions:
-    #     print("\n", x)
-    # print(type(predictions))
-    # print(type(predictions[1]))
-    # print(type(predictions[1][1]))
-    count = 0
-    with open("output", "wb") as compdata:
+    # na ftiaksw tis arxikes malakies tou arxeiou mia mpam
+    m =0;
+    with open("output_dataset", "wb") as compdata:
+        compdata.write(int(2051).to_bytes(4, 'big')) # magic number
+        compdata.write(int(10000).to_bytes(4, 'big')) # number of images
+        compdata.write(int(1).to_bytes(4, 'big')) # number of rows
+        compdata.write(int(10).to_bytes(4, 'big')) # number of columns
         for x in predictions:
             for y in x:
-                count = count+1
-                compdata.write(int(y).to_bytes(2, 'big'))
-                if(count==10):
-                    return
+                compdata.write(int(y).to_bytes(2, 'little'))
+
+    count = 0
+    with open("output_queryset", "wb") as compdata:
+        for x in predictions:
+            
+            print(x)
+            for y in x:
+                compdata.write(int(y).to_bytes(2, 'little'))
+            count = count+1
+            if(count==4):
+                return
             
 
 if __name__=="__main__":

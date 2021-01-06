@@ -1,15 +1,16 @@
-spaw se encoder decoder opws se fwtiadh
-
-kai meta gia to output apla 8elei embedding( encoder + regularization )
-
-h pairnw dense layer me weight ktl ta kanw reg kai feed se embedding ?
-
-
-1 byte == 8 bits
-ara stin ergasia twra egw exw ka8e ari8mo se dio byte ara 16 bit
-
-prwth ergasia ka8e eikona einai 1*784 = 784 bytes enw twra einai 2*10 = 20 bytes
-pli8os byte * diastaseis eikonas
-
 1111 : 
 	prepei na allaksw na dinei o xristis onoma na apo8ikeuetai kai na epanaferei to modelo
+	
+	also num of images ktl hardcoded
+	na fitaksw na pairnei to query file kai na to kanei opws prepei
+	to kanw na pairnei mono t10kimages kai na ftiaxnei outputdataset 10k kai tis prwtes 4 output query
+
+
+2222 :
+	mallon brute force ston neo xwro kai
+	lsh kai brute force ston arxiko xwro
+	kai sigkrisi me klasma ktl
+	alla auto to brute force ston neo xwro 8a prepei na brw ta dianismata proeleusis
+	kai na kanw me auta to klasma
+
+	sigkrinw teleiwnw paw 3 na dw ti paizei kai ekei antrika
