@@ -182,7 +182,6 @@ def encoderPredictions(encoder):
             count = count+1
             if(count==4):
                 return
-            
 
 if __name__=="__main__":
 
