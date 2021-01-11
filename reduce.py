@@ -85,7 +85,7 @@ def getAutoEncoder(filters, activationFunction):
         convTr1 = Conv2DTranspose(64, filters, activation=activationFunction, strides=(2,2))(reshape)
 
         convTr2 = Conv2DTranspose(32, filters, activation=activationFunction, strides=(2,2), padding="same")(convTr1)
-    
+
         convtr3 = Conv2DTranspose(1, filters, activation=activationFunction, strides=(2,2), padding="same")(convTr2)
 
         return convtr3
@@ -162,7 +162,7 @@ def encoderPredictions(encoder):
     predictions=predictions.astype(int)
 
     # na ftiaksw tis arxikes malakies tou arxeiou mia mpam
-    m =0;
+    m =0 
     with open("output_dataset", "wb") as compdata:
         compdata.write(int(2051).to_bytes(4, 'big')) # magic number
         compdata.write(int(10000).to_bytes(4, 'big')) # number of images
